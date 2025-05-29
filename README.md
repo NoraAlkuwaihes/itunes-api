@@ -1,157 +1,154 @@
-# 🎵 Podcast Search App - Thamanyah Task
+# 🎧 Podcast Search App - Thamanyah Task
 
-تطبيق كامل للبحث عن البودكاست باستخدام iTunes Search API، تم تطويره باستخدام Express وNext.js استجابة لتحدي ثمانية.
-
----
-
-## المهام المنجزة
-
-* REST API باستخدام Express
-* البحث في iTunes API عبر query parameter
-* تخزين النتائج في MongoDB Atlas
-* واجهة Next.js مع Bootstrap لعرض النتائج
-* عرض النتائج تلقائيًا أثناء الكتابة
-* عرض رسالة "لا يوجد نتائج" فقط عند الضغط على زر البحث
-* إمكانية مسح البحث بزر (❌) صغير بجانب الحقل
+A full-stack podcast search application built using Express (Node.js) and Next.js as part of the Thamanyah assignment.  
+The app fetches podcast data from the iTunes Search API and displays it in a user-friendly interface.
 
 ---
 
-##  التقنيات المستخدمة وتفصيل وظائفها
+## Project Description
 
-### Backend:
-
-* **Node.js + Express**: بيئة تشغيل وframework لبناء REST API. Express سهّل تعريف المسارات (routes) ومعالجة الطلبات.
-
-* **Axios**: مكتبة لإرسال طلبات HTTP. تم استخدامها لاستدعاء iTunes API من السيرفر. توفر طريقة بسيطة للتعامل مع البيانات القادمة من API خارجي.
-
-  ```js
-  const response = await axios.get("https://itunes.apple.com/search", { params: { term: query, media: "podcast" } });
-  ```
-
-* **MongoDB Atlas**: قاعدة بيانات NoSQL مستضافة على السحابة. استخدمت لتخزين نتائج البحث من iTunes بشكل دائم.
-
-* **Mongoose**: مكتبة ODM تتيح إنشاء Schemas والتعامل مع MongoDB بطريقة منظمة.
-
-  ```js
-  const podcastSchema = new mongoose.Schema({ title: String, author: String, ... });
-  ```
+This application allows users to search for podcasts in real-time using the iTunes Search API. It consists of a backend (Node.js + Express) that handles API calls and saves the results to MongoDB Atlas, and a frontend (Next.js + Bootstrap) that presents the results in a visually appealing way.  
+The project focuses on practical implementation, responsiveness, and user interactivity such as instant search, error handling, and UI feedback.
 
 ---
 
-### Frontend:
+## Installation & Setup Instructions
 
-* **Next.js**: إطار عمل مبني على React يسهل بناء تطبيقات جاهزة للإنتاج. استخدم لتصميم الواجهة وتنظيم الصفحات.
-
-* **Bootstrap 5**: إطار تصميم ساعد في تنسيق الواجهة باستخدام مكونات جاهزة مثل: بطاقات العرض (Cards)، الأزرار، حقول الإدخال.
-
-* **Axios (في الواجهة)**: لجلب البيانات من السيرفر المحلي:
-
-  ```js
-  const response = await axios.get(`http://localhost:5000/api/search?q=${query}`);
-  ```
-
----
-
-## طريقة التشغيل محليًا
-
-### 1. استنساخ المشروع
-
+### 1. Clone the repository
 ```bash
 git clone https://github.com/NoraAlkuwaihes/itunes-api.git
-cd podcast-search-thamanyah
+cd itunes-api
 ```
 
-### 2. تشغيل الباكند (backend)
-
+### 2. Setup Backend
 ```bash
 cd backend
 npm install
-cp .env.example .env  # ثم أضف بيانات الاتصال بـ MongoDB في .env
-npm start
 ```
 
-####  ملف .env:
+Create a `.env` file inside the `backend` folder and add your MongoDB URI:
 
+Example `.env` content:
 ```env
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/itunesSearch
 ```
 
-> ⚠️ تأكد من إنشاء قاعدة بيانات MongoDB مجانية على [https://www.mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+>  If you don’t have one, create a MongoDB Atlas cluster: https://www.mongodb.com/cloud/atlas
 
----
+Then run:
+```bash
+npm start
+```
 
-### 3. تشغيل الواجهة (frontend)
-
+### 3. Setup Frontend
 ```bash
 cd ../frontend
 npm install
 npm run dev
 ```
 
-افتح المتصفح على:
-[http://localhost:3000](http://localhost:3000)
+Open your browser at: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🔍 مثال على البحث:
+###  Additional Notes for Setup
+
+- Be sure to **manually create a `.env` file** in the `backend` directory as it’s not included for security reasons.
+- If the frontend throws an error on Bootstrap or Axios imports, run:
+```bash
+npm install axios bootstrap
+```
+
+---
+
+## Technologies Used
+
+### Backend:
+- **Node.js + Express**: Server environment and RESTful API routing.
+- **Axios**: To send requests to the iTunes API.
+- **MongoDB Atlas**: Cloud-hosted NoSQL database.
+- **Mongoose**: Schema modeling and querying.
+- **dotenv**: Environment variable support.
+- **cors**: Allow frontend to make requests across origins.
+
+### Frontend:
+- **Next.js**: React framework used for routing and SSR.
+- **React Hooks**: (useState, useEffect) for managing state.
+- **Axios**: Fetch results from local backend.
+- **Bootstrap 5**: Responsive layout and UI styling.
+
+---
+
+## Technical Decisions & Notes
+
+- Initially planned to use **Tailwind CSS** and **DynamoDB** for the project.
+- Due to the deadline, switched to **Bootstrap** and **MongoDB Atlas**, which I'm familiar with.
+- I plan to explore Tailwind and DynamoDB in future projects.
+
+---
+
+##  Project Structure
 
 ```
-http://localhost:5000/api/search?q=فنجان
+itunes-api/
+├── backend/ 
+│ ├── index.js # Main backend application logic
+│ ├── .env # Environment variables (MongoDB URI)
+│ ├── package.json # Backend dependencies and scripts
+│
+├── frontend/ 
+│ ├── pages/ 
+│ │ └── index.js # Home page 
+│ ├── public/ # Public assets (e.g., icons, images)
+│ ├── styles/ # Global and custom CSS files
+│ ├── package.json # Frontend dependencies and scripts
+│
+└── README.md # Project documentation
 ```
 
 ---
 
-##  ملاحظات
+## Challenges & Solutions
 
-* يتم جلب البيانات من iTunes API باستخدام Axios ثم حفظها في MongoDB
-* كل نتيجة تحتوي على: `title`, `author`, `image`, `link`
-* يتم عرض النتائج باستخدام بطاقات (Cards) من Bootstrap
-* عند عدم وجود نتائج، يتم عرض رسالة "لا يوجد نتائج" فقط بعد الضغط على زر البحث، وليس أثناء الكتابة
 
----
+### 1. MongoDB Atlas Setup
+- I used MongoDB Atlas to store podcast data. Setting it up required creating a new cluster, user, and connection string (URI).
 
-## الصعوبات والتحديات التي واجهتني
+- **Solution**: I stored the MongoDB URI in a .env file instead of writing it directly in the code. This is a best practice to keep sensitive information secure and allow easy configuration.
 
-1. **مشكلة CORS عند استخدام iTunes API:**
+### 2. Real-Time Search UX
+- Needed live search with delayed "no results" display.
+-  **Solution**: Controlled search behavior using `buttonClicked` flag.
 
-   * عند تجربة استدعاء API مباشرة من الواجهة ظهرت مشكلة CORS.
-   * الحل: تم تجاوزها عبر إنشاء API داخلي في الباكند يقوم بجلب البيانات من iTunes ثم إرسالها للفرونت.
+### 3. File Structure Clarity
+- Started with a combined folder, but it was messy.
+- **Solution**: Split clearly into `frontend/` and `backend/`.
 
-2. **إعداد MongoDB Atlas:**
-
-   * احتجت إلى إعداد مستخدم وصلاحيات وربط الاتصال بشكل صحيح، مما استغرق وقتًا في البداية.
-
-3. **تصميم الواجهة:**
-
-   * رغبت بأن تكون الواجهة بسيطة لكن جذابة، فاخترت Bootstrap وساهم كثيرًا في التنظيم.
-   * واجهت صعوبة في جعل الرسالة الخاصة بعدم وجود نتائج تظهر فقط في الوقت المناسب، وتم حلها عبر شرط `buttonClicked`.
-
-4. **ترتيب هيكل المشروع:**
-
-   * بدأت بخلط الملفات في مجلد واحد، لكن في النهاية فصلت `frontend` و `backend` لتسهيل التنظيم والتشغيل.
+### 4. README Language Formatting
+- Initially wrote README in Arabic, but it became unreadable due to mixed technical terms and formatting.
+-  **Solution**: Rewrote it in English for better clarity and structure.
 
 ---
 
-## اقتراحات أو أفكار لتحسين المشروع
+##  Tools Used
 
-* **دعم صفحات التفاصيل:** بحيث يتم الضغط على أي بودكاست لفتح صفحة تعرض معلومات أكثر.
-* **إضافة المفضلة:** تخزين البودكاستات المفضلة في localStorage أو في قاعدة البيانات.
-* **إظهار نتائج فورية بشكل أكثر تفاعلية:** مثل ظهور اقتراحات أثناء الكتابة.
-* **إضافة فلتر حسب التصنيف أو اللغة.**
-* **دعم اللغتين (عربي/إنجليزي)** من خلال إعداد بسيط للـ i18n.
+- **Visual Studio Code (VS Code)** was used for writing and testing the code, managing Git operations, and debugging.
+- Built and tested locally using **Node.js**, **Next.js**, and **MongoDB Atlas** cloud integration.
 
 ---
 
----
-## ملاحظات اضافية
+##  Ideas for Improvement
 
-كنت في البداية أخطط لاستخدام Tailwind CSS في الواجهة وDynamoDB كقاعدة بيانات، لكن بسبب ضيق الوقت ورغبتي في إنهاء المشروع وتسليمه في الموعد، قررت استخدام الأدوات التي أملك خبرة سابقة بها، وهي: Bootstrap وMongoDB Atlas. هذا الاختيار ساعدني على التركيز على المنطق والوظائف الأساسية، وأخطط لاحقًا لتعلّم تلك التقنيات الجديدة وتطبيقها في مشاريع قادمة.
----
-
-## الخلاصة
-
-هذا المشروع ساعدني على تطبيق مفاهيم عديدة تعلمتها في البرمجة مثل تصميم API وربط الواجهة بالخلفية والتعامل مع قواعد البيانات، كما علّمني كيف أواجه المشكلات الفنية وأبحث عن حلول. كانت تجربة رائعة واستمتعت بتطويرها.
+- Add a dedicated podcast details page.
+- Add favorite/save feature.
+- Add filters like language, category.
+- Apply a custom-designed UI for a more modern look.
+- Add full bilingual support (Arabic/English).
 
 ---
 
+##  Summary
 
+This project helped me practice working with APIs, databases, frontend/backend integration, and state management.  
+I used technologies I’m already comfortable with to focus on functionality and meeting the deadline.  
+With more time and dedication, additional features and improved functionalities could be implemented.
